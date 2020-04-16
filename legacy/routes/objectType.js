@@ -16,7 +16,7 @@ var objectType = function(coverage) {
         let body = req.body;
         console.log("Body: "+body);
 
-        if ("foo" in body) {
+        if ('foo' in body) {
             coverage['ObjectTypePut']++;
             res.status(200).end();
         } else {
