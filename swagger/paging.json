@@ -508,6 +508,69 @@
           }
         }
       }
+    },
+    "/paging/continuationTokenDifferentNextOperationInitial": {
+      "get": {
+        "x-ms-pageable": { "nextLinkName": "continuationToken", "operationName": "Paging_continuationTokenDifferentNextCallUrlSubsequent" },
+        "operationId": "Paging_continuationTokenDifferentNextCallUrlInitial",
+        "description": "Initial call for paging operation that takes the continuation token from the response body and passes it as a header to the separate next operation",
+        "responses": {
+          "200": {
+            "description": "Returns a paging model whose continuation token is listed under continuationToken. Will be passed as a header to the next paging call.",
+            "schema": {
+              "$ref": "#/definitions/ProductResultWithContinuationToken"
+            }
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    },
+    "/paging/continuationTokenDifferentNextOperationInitialSubsequent": {
+      "get": {
+        "x-ms-pageable": { "nextLinkName": "continuationToken" },
+        "operationId": "Paging_continuationTokenDifferentNextCallUrlSubsequent",
+        "description": "Subsequent calls for paging operation that takes the continuation token from the response body and passes it as a header to following calls.",
+        "parameters": [
+          {
+            "name": "nextLink",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "description": "The continuation token from the previous call needs to be passed in here"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a paging model whose continuation token is listed under continuationToken. Will be passed as a header to the next paging call.",
+            "schema": {
+              "$ref": "#/definitions/ProductResultWithContinuationToken"
+            }
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    },
+    "/paging/continuationTokenSameOperation": {
+      "get": {
+        "x-ms-pageable": { "nextLinkName": "continuationToken", "operationName": "Paging_continuationTokenSameNextCallSubsequent" },
+        "operationId": "Paging_continuationTokenSameNextCallInitial",
+        "description": "Initial call for paging operation that takes the continuation token from the response body and passes it as a header to the separate next operation",
+        "responses": {
+          "200": {
+            "description": "Returns a paging model whose continuation token is listed under continuationToken. Will be passed as a header to the next paging call.",
+            "schema": {
+              "$ref": "#/definitions/ProductResultWithContinuationToken"
+            }
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        }
+      }
     }
   },
   "x-ms-paths": {
@@ -618,6 +681,39 @@
           }
         }
       }
+    },
+    "/paging/continuationTokenSameOperation?paramToDisambiguate={paramToDisambiguate}": {
+      "get": {
+        "x-ms-pageable": { "nextLinkName": "continuationToken", "operationName": "Paging_continuationTokenSameNextCallSubsequent" },
+        "operationId": "Paging_continuationTokenSameNextCallSubsequent",
+        "description": "Initial call for paging operation that takes the continuation token from the response body and passes it as a header to the separate next operation",
+        "parameters": [
+          {
+            "name": "paramToDisambiguate",
+            "in": "query",
+            "type": "string",
+            "description": "Disambiguates this operation from the next operation, which as the same URL but diff operation D."
+          },
+          {
+            "name": "nextLink",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Pass in the continuation token here to make the next call."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns a paging model whose continuation token is listed under continuationToken. Will be passed as a header to the next paging call.",
+            "schema": {
+              "$ref": "#/definitions/ProductResultWithContinuationToken"
+            }
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -631,6 +727,20 @@
           }
         },
         "nextLink": {
+          "type": "string"
+        }
+      }
+    },
+    "ProductResultWithContinuationToken": {
+      "type":  "object",
+      "properties": {
+        "value": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          }
+        },
+        "continuationToken": {
           "type": "string"
         }
       }
